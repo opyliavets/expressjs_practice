@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const exphbs = require('express-handlebars')
+const homeRoutes = require('./routes/home')
+const addRoutes = require('./routes/add')
+const coursesRoutes = require('./routes/courses')
 
 const app = express()
 
@@ -14,15 +17,11 @@ app.set('view engine', 'hbs') // конфігурація для його вик
 app.set('views', 'views',) 
 
 app.use(express.static('public')) //реєстрація папки  public як статичної, для доступу до неї express js
+app.use(express.urlencoded({extended:true}))
 
-app.get('/', (req, res) => {
-    res.render('index')
-})
-
-app.get('/about', (req, res) => {
-    res.render('about')
-})
-
+app.use('/',homeRoutes) //використання роутингу для відповідної сторінки
+app.use('/add',addRoutes) //використання роутингу для відповідної сторінки
+app.use('/courses', coursesRoutes) //використання роутингу для відповідної сторінки
 
 const PORT = process.env.PORT || 3000
 
