@@ -1,13 +1,13 @@
-// const uuid = require('uuid/dist/v4')
+const { v4: uuidv4 } = require('uuid')
 const fs = require('fs')
-const path = require('path') //TO DO: Перевірити щодо перезавантаження серверу через зміни
-                             //2. Додати створення унікального id для даних по курсу
+const path = require('path') 
+                             
 class Course {
     constructor(title, price, img){
         this.title = title
         this.price = price
         this.img = img
-        this.id = 'i1k2l3j4'
+        this.id = uuidv4()
     }
 
     toJSON(){
@@ -17,6 +17,27 @@ class Course {
             img: this.img,
             id: this.id
         })
+    }
+
+    static async update(course){
+        const courses = await Course.getAll()
+
+        const idx = courses.findIndex(c => c.id === course.id)
+        courses[idx] = course
+
+        return new Promise((resolve, reject)=>{
+            fs.writeFile(
+                path.join(__dirname, '..', 'data', 'courses.json'),
+                JSON.stringify(courses),
+                (err) => {
+                    if(err) {
+                        reject(err)
+                    } else {
+                        resolve()
+                    }
+                }
+            )
+        }) 
     }
 
     async save(){
@@ -52,6 +73,11 @@ class Course {
                 }
             )
         })        
+    }
+
+    static async getById(id){
+        const courses = await Course.getAll()
+        return courses.find(c => c.id === id)
     }
 }
 
