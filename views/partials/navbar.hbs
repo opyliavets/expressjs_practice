@@ -21,6 +21,12 @@
           <li><a href="/add">Додати курс</a></li>
         {{/if}}
 
+        {{#if isCard}}
+          <li><a class="active" href="/card">Basket</a></li>
+        {{else}}
+          <li><a href="/card">Basket</a></li>
+        {{/if}}
+
       </ul>
     </div>
   </nav>
