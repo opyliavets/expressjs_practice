@@ -36,9 +36,9 @@ class Card{
     }
 
     static async remove(id){
-        const card = await Card.fetch()                             //TODO: в даному методі є баг 
-                                                                    //повязаний з тим, що при повторному
-        const idx = await card.courses.findIndex(c=> c.id ===id)    //виконанні видалення, не знаходиться
+        const card = await Card.fetch()                             //TODO: в даному методі є баг
+                                                                   //повязаний з тим, що при повторному
+        const idx = card.courses.findIndex(c => c.id === id)    //виконанні видалення, не знаходиться
         const course = card.courses[idx]                            //course. Але воно працює, якщо перезавантажити сторінку
         console.log(course);
 
